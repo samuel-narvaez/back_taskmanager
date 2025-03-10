@@ -15,7 +15,7 @@ describe('AuthController - login', () => {
     jest.clearAllMocks();
   });
 
-  test('debe responder con 200 y un token cuando la autenticación es exitosa', async () => {
+  test('It should respond with 200 and a token when authentication is successful.', async () => {
     const mockToken = { token: 'fake-jwt-token' };
     authService.authenticate.mockResolvedValue(mockToken);
 
@@ -31,7 +31,7 @@ describe('AuthController - login', () => {
     });
   });
 
-  test('debe responder con 401 cuando la autenticación falla', async () => {
+  test('It should respond with 401 when authentication fails.', async () => {
     authService.authenticate.mockRejectedValue(new Error('Invalid credentials'));
 
     const response = await request(app)

@@ -14,29 +14,9 @@ jobs:
       matrix:
         node-version: [22.x]
 
-    services:
-      mongodb:
-        image: mongo:5
-        ports:
-          - "27017:27017"
-        env:
-          MONGO_INITDB_ROOT_USERNAME: root
-          MONGO_INITDB_ROOT_PASSWORD: admin
-          MONGODB_DATABASE: task-manager
-        options: >-
-          --health-cmd "mongo --eval 'db.stats()'"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        volumes:
-          - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        
-      - name: Verify mongo-init.js
-        run: cat mongo-init.js 
         
       - name: Node.js
         uses: actions/setup-node@v4
@@ -50,4 +30,4 @@ jobs:
       - name: Tests
         run: npm test
         env:
-          MONGO_URI: mongodb://root:admin@localhost:27017/task-manager
+          MONGO_URI: ${secret.MONGO_URI}
